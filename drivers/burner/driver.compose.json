@@ -1,0 +1,70 @@
+{
+    "name": {
+        "en": "Burner"
+    },
+    "class": "heater",
+    "capabilities": [
+        "measure_temperature.outside",
+        "measure_temperature"
+    ],
+    "capabilitiesOptions": {
+        "measure_temperature.outside": {
+            "title": {
+                "en": "Outside temperature",
+                "nl": "Buitentemperatuur"
+            }
+        },
+        "measure_temperature": {
+            "title": {
+                "en": "Inside temperature",
+                "nl": "Binnentemperatuur"
+            }
+        }
+    },
+    "platforms": [
+        "local",
+        "cloud"
+    ],
+    "connectivity": [],
+    "images": {
+        "small": "{{driverAssetsPath}}/images/small.png",
+        "large": "{{driverAssetsPath}}/images/large.png",
+        "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+    },
+    "pair": [
+        {
+            "id": "login_credentials",
+            "template": "login_credentials",
+            "navigation": {
+                "next": "list_devices"
+            }
+        },
+        {
+            "id": "list_devices",
+            "template": "list_devices",
+            "navigation": {
+                "next": "add_devices"
+            }
+        },
+        {
+            "id": "add_devices",
+            "template": "add_devices"
+        }
+    ],
+    "settings": [
+        {
+            "id": "username",
+            "type": "text",
+            "label": {
+                "en": "WEM username"
+            }
+        },
+        {
+            "id": "password",
+            "type": "text",
+            "label": {
+                "en": "WEM password"
+            }
+        }
+    ]
+}
