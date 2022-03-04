@@ -1,29 +1,29 @@
 {
-  "id": "de.wemportal.app",
-  "version": "1.0.0",
-  "compatibility": ">=5.0.0",
-  "sdk": 3,
-  "platforms": [
-    "local",
-    "cloud"
-  ],
-  "name": {
-    "en": "wemportal"
-  },
-  "description": {
-    "en": "Adds support for Weishaupt devices"
-  },
-  "category": [
-    "climate"
-  ],
-  "permissions": [],
-  "images": {
-    "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
-  },
-  "author": {
-    "name": "Wouter Reyntjens",
-    "email": "wouter@chismoor.net"
-  }
+    "id": "de.wemportal.app",
+    "version": "1.0.0",
+    "compatibility": ">=5.0.0",
+    "sdk": 3,
+    "brandColor": "#F0943D",
+    "platforms": [
+        "local",
+        "cloud"
+    ],
+    "name": {
+        "en": "wemportal"
+    },
+    "description": {
+        "en": "Weishaupt - Read your heating system"
+    },
+    "category": [
+        "climate"
+    ],
+    "permissions": [],
+    "images": {
+        "small": "/assets/images/logo_small.png",
+        "large": "/assets/images/logo_large.png"
+    },
+    "author": {
+        "name": "Wouter Reyntjens",
+        "email": "wouter@chismoor.net"
+    }
 }

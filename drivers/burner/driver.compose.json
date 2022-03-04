@@ -5,13 +5,35 @@
     "class": "heater",
     "capabilities": [
         "measure_temperature.outside",
-        "measure_temperature"
+        "measure_temperature.decreased",
+        "measure_temperature.normal",
+        "measure_temperature.comfort",
+        "measure_temperature",
+        "thermostat_mode"
     ],
     "capabilitiesOptions": {
         "measure_temperature.outside": {
             "title": {
                 "en": "Outside temperature",
                 "nl": "Buitentemperatuur"
+            }
+        },
+        "measure_temperature.decreased": {
+            "title": {
+                "en": "Decreased temperature",
+                "nl": "Verlaagde temperatuur"
+            }
+        },
+        "measure_temperature.normal": {
+            "title": {
+                "en": "Normal temperature",
+                "nl": "Normale temperatuur"
+            }
+        },
+        "measure_temperature.comfort": {
+            "title": {
+                "en": "Comfort temperature",
+                "nl": "Comfort temperatuur"
             }
         },
         "measure_temperature": {
@@ -27,9 +49,8 @@
     ],
     "connectivity": [],
     "images": {
-        "small": "{{driverAssetsPath}}/images/small.png",
-        "large": "{{driverAssetsPath}}/images/large.png",
-        "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+        "small": "{{driverAssetsPath}}/images/small.jpg",
+        "large": "{{driverAssetsPath}}/images/large.jpg"
     },
     "pair": [
         {

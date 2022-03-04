@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
+  "brandColor": "#F0943D",
   "platforms": [
     "local",
     "cloud"
@@ -12,16 +13,15 @@
     "en": "wemportal"
   },
   "description": {
-    "en": "Adds support for Weishaupt devices"
+    "en": "Weishaupt - Read your heating system"
   },
   "category": [
     "climate"
   ],
   "permissions": [],
   "images": {
-    "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
+    "small": "/assets/images/logo_small.png",
+    "large": "/assets/images/logo_large.png"
   },
   "author": {
     "name": "Wouter Reyntjens",
@@ -35,13 +35,35 @@
       "class": "heater",
       "capabilities": [
         "measure_temperature.outside",
-        "measure_temperature"
+        "measure_temperature.decreased",
+        "measure_temperature.normal",
+        "measure_temperature.comfort",
+        "measure_temperature",
+        "thermostat_mode"
       ],
       "capabilitiesOptions": {
         "measure_temperature.outside": {
           "title": {
             "en": "Outside temperature",
             "nl": "Buitentemperatuur"
+          }
+        },
+        "measure_temperature.decreased": {
+          "title": {
+            "en": "Decreased temperature",
+            "nl": "Verlaagde temperatuur"
+          }
+        },
+        "measure_temperature.normal": {
+          "title": {
+            "en": "Normal temperature",
+            "nl": "Normale temperatuur"
+          }
+        },
+        "measure_temperature.comfort": {
+          "title": {
+            "en": "Comfort temperature",
+            "nl": "Comfort temperatuur"
           }
         },
         "measure_temperature": {
@@ -57,9 +79,8 @@
       ],
       "connectivity": [],
       "images": {
-        "small": "/drivers/burner/assets/images/small.png",
-        "large": "/drivers/burner/assets/images/large.png",
-        "xlarge": "/drivers/burner/assets/images/xlarge.png"
+        "small": "/drivers/burner/assets/images/small.jpg",
+        "large": "/drivers/burner/assets/images/large.jpg"
       },
       "pair": [
         {
@@ -86,7 +107,7 @@
           "id": "username",
           "type": "text",
           "label": {
-            "en": "WEN username"
+            "en": "WEM username"
           }
         },
         {
@@ -99,5 +120,69 @@
       ],
       "id": "burner"
     }
-  ]
+  ],
+  "capabilities": {
+    "thermostat_mode": {
+      "type": "enum",
+      "title": "Mode",
+      "values": [
+        {
+          "id": "Comfort",
+          "title": {
+            "en": "Comfort"
+          }
+        },
+        {
+          "id": "Normaal",
+          "title": {
+            "en": "Normal",
+            "nl": "Normaal"
+          }
+        },
+        {
+          "id": "Verlaging",
+          "title": {
+            "en": "Decreased",
+            "nl": "Verlaging"
+          }
+        },
+        {
+          "id": "Tijdprogramma 1",
+          "title": {
+            "en": "Schedule 1",
+            "nl": "Tijdprogramma 1"
+          }
+        },
+        {
+          "id": "Tijdprogramma 2",
+          "title": {
+            "en": "Schedule 2",
+            "nl": "Tijdprogramma 2"
+          }
+        },
+        {
+          "id": "Tijdprogramma 3",
+          "title": {
+            "en": "Schedule 3",
+            "nl": "Tijdprogramma 3"
+          }
+        },
+        {
+          "id": "Zomer",
+          "title": {
+            "en": "Summer",
+            "nl": "Zomer"
+          }
+        },
+        {
+          "id": "Stand-by",
+          "title": {
+            "en": "Stand-by"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": false
+    }
+  }
 }

@@ -124,61 +124,59 @@ class WemApi {
         const apiData = await response.json();
         for (let i = 0; i < apiData["Modules"].length; i++) {
             if (apiData["Modules"][i]["Values"][0]["NumericValue"] != null) {
-                ModuleIndex = apiData["Modules"][i]["ModuleIndex"];
+                apiData["Modules"][i]["Values"][0]['ModuleIndex'] = apiData["Modules"][i]["ModuleIndex"];
                 return apiData["Modules"][i]["Values"][0]
             }
         }
     }
 
-    async getOutsideTemperature(ID) {
+    async queryApi(ID, ModuleIndex, ModuleType, ParameterID) {
         const systemsUrl = `${baseUrl}/DataAccess/Read`;
         let bodyData = "";
+        console.log("begin query");
+        try {
 
-        bodyData = JSON.stringify({
-            "DeviceID": ID,
-            "Modules": [
-                {
-                    "ModuleIndex": 0,
-                    "ModuleType": 1,
-                    "Parameters": [
-                        {
-                            "ParameterID": "Außentemperatur"
-                        }
-                    ]
+            bodyData = JSON.stringify({
+                "DeviceID": ID,
+                "Modules": [
+                    {
+                        "ModuleIndex": ModuleIndex,
+                        "ModuleType": ModuleType,
+                        "Parameters": [
+                            {
+                                "ParameterID": ParameterID
+                            }
+                        ]
+                    }
+                ]
+            });
+            console.log(bodyData);
+
+            const response = await fetch(systemsUrl, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "User-Agent": "WeishauptWEMApp",
+                    "X-Api-Version": "2.0.0.0",
+                    "Accept": "*/*",
+                    "Cookie": cookie
                 },
-                {
-                    "ModuleIndex": 1,
-                    "ModuleType": 1,
-                    "Parameters": [
-                        {
-                            "ParameterID": "Außentemperatur"
-                        }
-                    ]
+                body: bodyData
+            });
+
+            const apiData = await response.json();
+            for (let i = 0; i < apiData["Modules"].length; i++) {
+                console.log(apiData["Modules"][i]["Values"][0]["NumericValue"]);
+                if (apiData["Modules"][i]["Values"][0]["NumericValue"] != null) {
+                    return apiData["Modules"][i]["Values"][0]
                 }
-            ]
-        });
-
-        const response = await fetch(systemsUrl, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                "User-Agent": "WeishauptWEMApp",
-                "X-Api-Version": "2.0.0.0",
-                "Accept": "*/*",
-                "Cookie": cookie
-            },
-            body: bodyData
-        });
-
-        const apiData = await response.json();
-        for (let i = 0; i < apiData["Modules"].length; i++) {
-            console.log(apiData["Modules"][i]["Values"][0]["NumericValue"]);
-            if (apiData["Modules"][i]["Values"][0]["NumericValue"] != null) {
-                return apiData["Modules"][i]["Values"][0]
             }
         }
-    }
+        catch (e) {
+            console.log(e)
+        }
 
+    }
 }
 
 module.exports = { WemApi };
