@@ -5,6 +5,15 @@ const { URLSearchParams } = require('url');
 const baseUrl = 'https://www.wemportal.com/app';
 let cookie = '';
 global.ModuleIndex = null;
+const wemHeaders = {
+    'Content-Type': 'application/json',
+    "User-Agent": "WeishauptWEMApp",
+    "X-Api-Version": "2.0.0.0",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    "Pragma": "no-cache",
+    "Expires": "0"
+};
 
 class WemApi {
     constructor(username, password) {
@@ -14,13 +23,12 @@ class WemApi {
 
     async initializeSession() {
         const accountUrl = `${baseUrl}/Account/Login`;
-        console.log("begin");
         const requestBody = JSON.stringify({
             "Name": this.username,
             "PasswordUTF8": this.password,
             "AppID": "de.weishaupt.wemapp",
             "AppVersion": "2.0.2",
-            "ClientOS": "Android"
+            "ClientOS": "Android",
         });
         const apiData = await this.apiRequest(accountUrl, 'POST', requestBody);
     }
@@ -28,22 +36,15 @@ class WemApi {
     async apiRequest(url, methodContent, requestBody) {
         const apiResponse = await fetch(url, {
             method: methodContent,
-            headers: {
-                'Content-Type': 'application/json',
-                "User-Agent": "WeishauptWEMApp",
-                "X-Api-Version": "2.0.0.0",
-                "Accept": "*/*"
-            },
+            headers: wemHeaders,
             body: requestBody,
         });
 
         const apiData = await apiResponse;
-        console.log(apiData.headers.get('set-cookie').split(";")[0]);
         cookie = apiData.headers.get('set-cookie').split(";")[0];
 
         if (apiData.statusText === 'OK') {
             return apiData;
-
         }
 
         throw new Error(apiData.status);
@@ -51,36 +52,25 @@ class WemApi {
 
     async getSystems() {
         const systemsUrl = `${baseUrl}/Device/Read`;
-        console.log("next");
         const response = await fetch(systemsUrl, {
-            headers: {
-                'Content-Type': 'application/json',
-                "User-Agent": "WeishauptWEMApp",
-                "X-Api-Version": "2.0.0.0",
-                "Accept": "*/*",
-                "Cookie": cookie
-            }
+            headers: wemHeaders
         });
         const apiData = await response.json();
 
         return apiData["Devices"];
     }
 
-    async getSystems() {
-        const systemsUrl = `${baseUrl}/Device/Read`;
-        console.log("next");
+    async refreshData(bodyData) {
+        const systemsUrl = `${baseUrl}/DataAccess/Refresh`;
+        wemHeaders["Cookie"] = cookie;
         const response = await fetch(systemsUrl, {
-            headers: {
-                'Content-Type': 'application/json',
-                "User-Agent": "WeishauptWEMApp",
-                "X-Api-Version": "2.0.0.0",
-                "Accept": "*/*",
-                "Cookie": cookie
-            }
+            method: "POST",
+            headers: wemHeaders,
+            body: bodyData
         });
-        const apiData = await response.json();
 
-        return apiData["Devices"];
+        const apiData = await response.json();
+        await new Promise(resolve => setTimeout(resolve, 5000));
     }
 
     async getIndoorTemperature(ID) {
@@ -109,17 +99,13 @@ class WemApi {
                 }
             ]
         });
+        await this.refreshData(bodyData);
         const response = await fetch(systemsUrl, {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                "User-Agent": "WeishauptWEMApp",
-                "X-Api-Version": "2.0.0.0",
-                "Accept": "*/*",
-                "Cookie": cookie
-            },
+            headers: wemHeaders,
             body: bodyData
         });
+
 
         const apiData = await response.json();
         for (let i = 0; i < apiData["Modules"].length; i++) {
@@ -133,7 +119,6 @@ class WemApi {
     async queryApi(ID, ModuleIndex, ModuleType, ParameterID) {
         const systemsUrl = `${baseUrl}/DataAccess/Read`;
         let bodyData = "";
-        console.log("begin query");
         try {
 
             bodyData = JSON.stringify({
@@ -150,23 +135,17 @@ class WemApi {
                     }
                 ]
             });
-            console.log(bodyData);
+            await this.refreshData(bodyData);
+            wemHeaders["Cookie"] = cookie;
 
             const response = await fetch(systemsUrl, {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    "User-Agent": "WeishauptWEMApp",
-                    "X-Api-Version": "2.0.0.0",
-                    "Accept": "*/*",
-                    "Cookie": cookie
-                },
+                headers: wemHeaders,
                 body: bodyData
             });
 
             const apiData = await response.json();
             for (let i = 0; i < apiData["Modules"].length; i++) {
-                console.log(apiData["Modules"][i]["Values"][0]["NumericValue"]);
                 if (apiData["Modules"][i]["Values"][0]["NumericValue"] != null) {
                     return apiData["Modules"][i]["Values"][0]
                 }
@@ -177,6 +156,7 @@ class WemApi {
         }
 
     }
+
 }
 
 module.exports = { WemApi };

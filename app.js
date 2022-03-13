@@ -4,18 +4,15 @@ const Homey = require('homey');
 
 
 
-class MyApp extends Homey.App {
+class WemPortal extends Homey.App {
 
     /**
      * onInit is called when the app is initialized.
      */
     async onInit() {
-        this.log('MyApp has been initialized');
-        // const settings = this.getSettings();
-
-
+        this.log('WemPortal has been initialized');
     }
 
 }
 
-module.exports = MyApp;
+module.exports = WemPortal;
