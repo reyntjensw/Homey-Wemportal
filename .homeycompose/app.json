@@ -5,8 +5,7 @@
     "sdk": 3,
     "brandColor": "#F0943D",
     "platforms": [
-        "local",
-        "cloud"
+        "local"
     ],
     "name": {
         "en": "wemportal"

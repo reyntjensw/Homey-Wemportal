@@ -32,7 +32,7 @@ class Burner extends Device {
 
         this.homey.setInterval(async () => {
             await this.getProductionData();
-        }, 1000 * 60 * 5);
+        }, 1000 * 60 * 3);
 
     }
 

@@ -44,13 +44,12 @@
         }
     },
     "platforms": [
-        "local",
-        "cloud"
+        "local"
     ],
     "connectivity": [],
     "images": {
-        "small": "{{driverAssetsPath}}/images/small.jpg",
-        "large": "{{driverAssetsPath}}/images/large.jpg"
+        "small": "{{driverAssetsPath}}/images/small.png",
+        "large": "{{driverAssetsPath}}/images/large.png"
     },
     "pair": [
         {

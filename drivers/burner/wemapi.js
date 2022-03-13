@@ -23,12 +23,13 @@ class WemApi {
 
     async initializeSession() {
         const accountUrl = `${baseUrl}/Account/Login`;
+        console.log("begin");
         const requestBody = JSON.stringify({
             "Name": this.username,
             "PasswordUTF8": this.password,
             "AppID": "de.weishaupt.wemapp",
             "AppVersion": "2.0.2",
-            "ClientOS": "Android",
+            "ClientOS": "Android"
         });
         const apiData = await this.apiRequest(accountUrl, 'POST', requestBody);
     }
@@ -36,20 +37,25 @@ class WemApi {
     async apiRequest(url, methodContent, requestBody) {
         const apiResponse = await fetch(url, {
             method: methodContent,
-            headers: wemHeaders,
+            headers: {
+                'Content-Type': 'application/json',
+                "User-Agent": "WeishauptWEMApp",
+                "X-Api-Version": "2.0.0.0",
+                "Accept": "*/*"
+            },
             body: requestBody,
         });
-
         const apiData = await apiResponse;
+        console.log(apiData.headers.get('set-cookie').split(";")[0]);
         cookie = apiData.headers.get('set-cookie').split(";")[0];
 
         if (apiData.statusText === 'OK') {
             return apiData;
+
         }
 
         throw new Error(apiData.status);
     }
-
     async getSystems() {
         const systemsUrl = `${baseUrl}/Device/Read`;
         const response = await fetch(systemsUrl, {

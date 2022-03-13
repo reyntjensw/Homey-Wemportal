@@ -6,8 +6,7 @@
   "sdk": 3,
   "brandColor": "#F0943D",
   "platforms": [
-    "local",
-    "cloud"
+    "local"
   ],
   "name": {
     "en": "wemportal"
@@ -74,13 +73,12 @@
         }
       },
       "platforms": [
-        "local",
-        "cloud"
+        "local"
       ],
       "connectivity": [],
       "images": {
-        "small": "/drivers/burner/assets/images/small.jpg",
-        "large": "/drivers/burner/assets/images/large.jpg"
+        "small": "/drivers/burner/assets/images/small.png",
+        "large": "/drivers/burner/assets/images/large.png"
       },
       "pair": [
         {
