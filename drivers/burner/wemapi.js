@@ -23,7 +23,7 @@ class WemApi {
 
     async initializeSession() {
         const accountUrl = `${baseUrl}/Account/Login`;
-        console.log("begin");
+
         const requestBody = JSON.stringify({
             "Name": this.username,
             "PasswordUTF8": this.password,
@@ -46,7 +46,6 @@ class WemApi {
             body: requestBody,
         });
         const apiData = await apiResponse;
-        console.log(apiData.headers.get('set-cookie').split(";")[0]);
         cookie = apiData.headers.get('set-cookie').split(";")[0];
 
         if (apiData.statusText === 'OK') {
@@ -161,6 +160,39 @@ class WemApi {
             console.log(e)
         }
 
+    }
+
+    async writeSettings(ID, ModuleIndex, ModuleType, ParameterID, newValue) {
+        const systemsUrl = `${baseUrl}/DataAccess/Write`;
+        let bodyData = "";
+        try {
+
+            bodyData = JSON.stringify({
+                "DeviceID": ID,
+                "Modules": [
+                    {
+                        "ModuleIndex": ModuleIndex,
+                        "ModuleType": ModuleType,
+                        "Parameters": [
+                            {
+                                "ParameterID": ParameterID,
+                                "NumericValue": newValue
+                            }
+                        ]
+                    }
+                ]
+            });
+            wemHeaders["Cookie"] = cookie;
+
+            const response = await fetch(systemsUrl, {
+                method: "POST",
+                headers: wemHeaders,
+                body: bodyData
+            });
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 
 }

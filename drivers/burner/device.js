@@ -46,6 +46,8 @@ class Burner extends Device {
             await this.wemApi.initializeSession();
             const indoorTemperature = this.wemApi.getIndoorTemperature(this.getData().id);
             const [indoorObj] = await Promise.all([indoorTemperature]);
+            // this.setData(indoorObj.ModuleIndex);
+            this.setStoreValue("ModuleIndex", indoorObj.ModuleIndex);
 
             this.setCapabilityValue('measure_temperature', 0).catch(this.error);
             this.setCapabilityValue('measure_temperature', indoorObj.NumericValue).catch(this.error);
@@ -63,6 +65,8 @@ class Burner extends Device {
             await this.setCapabilityValue('measure_temperature.decreased', decreasedObj.NumericValue).catch(this.error);
             await this.setCapabilityValue('thermostat_mode', currentModeObj.StringValue).catch(this.error);
 
+            // await this.wemApi.setTemperature(this.getData().id, indoorObj.ModuleIndex, 2, "Komfort", 19.5);
+
             if (!this.getAvailable()) {
                 await this.setAvailable();
             }
@@ -70,6 +74,20 @@ class Burner extends Device {
         } catch (error) {
             this.error(`Unavailable (${error})`);
             this.setUnavailable(`Error retrieving data (${error})`);
+
+        }
+    }
+
+    async writeSettings(ID, ModuleIndex, ModuleType, ParameterID, newValue) {
+        try {
+            let username = this.homey.settings.get('username');
+            let password = this.homey.settings.get('password');
+            this.wemApi = new WemApi(username, password);
+
+            await this.wemApi.initializeSession();
+            await this.wemApi.writeSettings(ID, ModuleIndex, ModuleType, ParameterID, newValue);
+        } catch (error) {
+            this.error(`Unavailable (${error})`);
 
         }
     }

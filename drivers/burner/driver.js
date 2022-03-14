@@ -11,6 +11,23 @@ class Burner extends Driver {
      */
     async onInit() {
         this.log('Burner has been initialized');
+        try {
+            const cardActionSetTemperature = this.homey.flow.getActionCard("set-temperature");
+            cardActionSetTemperature.registerRunListener(async (args) => {
+                await args.device.writeSettings(args.device.getData().id, args.device.getStoreValue("ModuleIndex"), 2, args.ParameterID, args.temperature);
+            })
+        } catch (error) {
+            throw new error(error);
+        }
+
+        try {
+            const cardActionSetSystemMode = this.homey.flow.getActionCard("set-system-mode");
+            cardActionSetSystemMode.registerRunListener(async (args) => {
+                await args.device.writeSettings(args.device.getData().id, args.device.getStoreValue("ModuleIndex"), 2, "Betriebsart", args.systemMode);
+            })
+        } catch (error) {
+            throw new error(error);
+        }
     }
 
     onPair(session) {
@@ -41,10 +58,9 @@ class Burner extends Driver {
                 const devices = systems.map(item => ({
                     name: item.Name,
                     data: {
-                        id: item.ID,
+                        id: item.ID
                     },
                 }));
-                console.debug(devices);
 
                 return devices;
             } catch (error) {

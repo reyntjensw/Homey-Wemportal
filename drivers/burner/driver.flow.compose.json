@@ -1,0 +1,128 @@
+{
+    "actions": [
+        {
+            "id": "set-temperature",
+            "title": {
+                "en": "Set temperature"
+            },
+            "args": [
+                {
+                    "type": "number",
+                    "name": "temperature",
+                    "placeholder": {
+                        "en": "19.5"
+                    },
+                    "min": 0,
+                    "max": 30,
+                    "step": 0.1
+                },
+                {
+                    "type": "dropdown",
+                    "name": "ParameterID",
+                    "values": [
+                        {
+                            "id": "Normal",
+                            "label": {
+                                "de": "Normal",
+                                "en": "Normal",
+                                "nl": "Normaal"
+                            }
+                        },
+                        {
+                            "id": "Komfort",
+                            "label": {
+                                "de": "Komfort",
+                                "en": "Comfort",
+                                "nl": "Comfort"
+                            }
+                        },
+                        {
+                            "id": "Absenk",
+                            "label": {
+                                "de": "Absenk",
+                                "en": "Away",
+                                "nl": "Afwezig"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "set-system-mode",
+            "title": {
+                "en": "Set system mode"
+            },
+            "args": [
+                {
+                    "type": "dropdown",
+                    "name": "systemMode",
+                    "values": [
+                        {
+                            "id": "1",
+                            "label": {
+                                "en": "Standby"
+                            }
+                        },
+                        {
+                            "id": "2",
+                            "label": {
+                                "de": "Zeitprogramm 1",
+                                "en": "Schedule 1",
+                                "nl": "Tijdsprogramma 1"
+                            }
+                        },
+                        {
+                            "id": "3",
+                            "label": {
+                                "de": "Zeitprogramm 2",
+                                "en": "Schedule 2",
+                                "nl": "Tijdsprogramma 2"
+                            }
+                        },
+                        {
+                            "id": "4",
+                            "label": {
+                                "de": "Zeitprogramm 3",
+                                "en": "Schedule 3",
+                                "nl": "Tijdsprogramma 3"
+                            }
+                        },
+                        {
+                            "id": "5",
+                            "label": {
+                                "de": "Sommer",
+                                "en": "Summer",
+                                "nl": "Zomer"
+                            }
+                        },
+                        {
+                            "id": "6",
+                            "label": {
+                                "de": "Komfort",
+                                "en": "Comfort",
+                                "nl": "Comfort"
+                            }
+                        },
+                        {
+                            "id": "7",
+                            "label": {
+                                "de": "Normal",
+                                "en": "Normal",
+                                "nl": "Normaal"
+                            }
+                        },
+                        {
+                            "id": "8",
+                            "label": {
+                                "de": "Absenk",
+                                "en": "Away",
+                                "nl": "Afwezig"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

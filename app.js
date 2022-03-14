@@ -11,6 +11,8 @@ class WemPortal extends Homey.App {
      */
     async onInit() {
         this.log('WemPortal has been initialized');
+
+
     }
 
 }
