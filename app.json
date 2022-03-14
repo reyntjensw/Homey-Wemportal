@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "de.wemportal.app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#F0943D",
@@ -31,8 +31,8 @@
       {
         "id": "set-temperature",
         "titleFormatted": {
-          "en": "Set temperature to [[temperature]] on program [[ParameterID]]",
-          "nl": "Pas temperatuur aan naar [[temperature]] in programma [[ParameterID]]"
+          "en": "Set temperature to [[temperature]] degrees on program [[ParameterID]]",
+          "nl": "Pas temperatuur aan naar [[temperature]] graden in programma [[ParameterID]]"
         },
         "title": {
           "en": "Set temperature"

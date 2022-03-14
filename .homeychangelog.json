@@ -1,5 +1,8 @@
 {
   "1.0.1": {
     "en": "Base version that allows to read data"
+  },
+  "1.0.3": {
+    "en": "Adding support for writing parameters in flow cards"
   }
 }
