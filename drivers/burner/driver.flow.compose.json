@@ -2,6 +2,10 @@
     "actions": [
         {
             "id": "set-temperature",
+            "titleFormatted": {
+                "en": "Set temperature to [[temperature]] degrees on program [[ParameterID]]",
+                "nl": "Pas temperatuur aan naar [[temperature]] graden in programma [[ParameterID]]"
+            },
             "title": {
                 "en": "Set temperature"
             },
@@ -52,6 +56,10 @@
             "id": "set-system-mode",
             "title": {
                 "en": "Set system mode"
+            },
+            "titleFormatted": {
+                "en": "Change system mode to [[systemMode]]",
+                "nl": "Pas programma aan naar [[systemMode]]"
             },
             "args": [
                 {
