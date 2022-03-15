@@ -40,8 +40,11 @@ class Burner extends Driver {
             try {
                 this.homey.settings.set('username', data.username);
                 this.homey.settings.set('password', data.password);
+                username = data.username;
+                password = data.password;
 
-                wemApi = new WemApi(data.username, data.password);
+
+                wemApi = new WemApi(username, password);
                 await wemApi.initializeSession();
 
                 return true;
@@ -52,9 +55,7 @@ class Burner extends Driver {
 
         session.setHandler('list_devices', async (data) => {
             try {
-                wemApi = new WemApi(username, password);
                 const systems = await wemApi.getSystems();
-
                 const devices = systems.map(item => ({
                     name: item.Name,
                     data: {

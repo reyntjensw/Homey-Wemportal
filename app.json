@@ -9,10 +9,11 @@
     "local"
   ],
   "name": {
-    "en": "wemportal"
+    "en": "Weishaupt Wemportal"
   },
   "description": {
-    "en": "Weishaupt - Read your heating system"
+    "en": "This app allows you to read heating data (inside and outside), but also allows you to set the temperatures using a flow and changing the operational program.",
+    "nl": "Met deze app kan je de thermostaat uitlezen en kan je zowel de temperatuur als het huidige programma aanpassen."
   },
   "category": [
     "climate"
@@ -26,6 +27,7 @@
     "name": "Wouter Reyntjens",
     "email": "wouter@chismoor.net"
   },
+  "homeyCommunityTopicId": 61713,
   "flow": {
     "actions": [
       {

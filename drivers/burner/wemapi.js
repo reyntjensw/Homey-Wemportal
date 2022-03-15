@@ -57,11 +57,11 @@ class WemApi {
     }
     async getSystems() {
         const systemsUrl = `${baseUrl}/Device/Read`;
+        wemHeaders["Cookie"] = cookie;
         const response = await fetch(systemsUrl, {
             headers: wemHeaders
         });
         const apiData = await response.json();
-
         return apiData["Devices"];
     }
 
