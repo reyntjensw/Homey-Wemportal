@@ -48,22 +48,35 @@ class Burner extends Device {
             const [indoorObj] = await Promise.all([indoorTemperature]);
             // this.setData(indoorObj.ModuleIndex);
             this.setStoreValue("ModuleIndex", indoorObj.ModuleIndex);
+            console.log("indoorObj")
+            console.log(indoorObj)
 
             this.setCapabilityValue('measure_temperature', 0).catch(this.error);
-            this.setCapabilityValue('measure_temperature', indoorObj.NumericValue).catch(this.error);
+            if (indoorObj["NumericValue"] != "undefined") {
+                this.setCapabilityValue('measure_temperature', indoorObj["NumericValue"]).catch(this.error);
+            }
 
-            const outdoorTemperature = this.wemApi.queryApi(this.getData().id, 0, 1, "Außentemperatur");
-            const normalTemperature = this.wemApi.queryApi(this.getData().id, indoorObj.ModuleIndex, 2, "Normal");
-            const comfortTemperature = this.wemApi.queryApi(this.getData().id, indoorObj.ModuleIndex, 2, "Komfort");
-            const decreasedTemperature = this.wemApi.queryApi(this.getData().id, indoorObj.ModuleIndex, 2, "Absenk");
-            const currentMode = this.wemApi.queryApi(this.getData().id, indoorObj.ModuleIndex, 2, "Betriebsart");
-            const [outdoorObj, normalObj, comfortObj, decreasedObj, currentModeObj] = await Promise.all([outdoorTemperature, normalTemperature, comfortTemperature, decreasedTemperature, currentMode]);
+            // const outdoorTemperature = this.wemApi.generator(0, 1, "Außentemperatur");
+            // const normalTemperature = this.wemApi.generator(indoorObj.ModuleIndex, 2, "Normal");
+            // const comfortTemperature = this.wemApi.generator(indoorObj.ModuleIndex, 2, "Komfort");
+            // const decreasedTemperature = this.wemApi.generator(indoorObj.ModuleIndex, 2, "Absenk");
+            // const currentMode = this.wemApi.generator(indoorObj.ModuleIndex, 2, "Betriebsart");
 
-            await this.setCapabilityValue('measure_temperature.outside', outdoorObj.NumericValue).catch(this.error);
-            await this.setCapabilityValue('measure_temperature.normal', normalObj.NumericValue).catch(this.error);
-            await this.setCapabilityValue('measure_temperature.comfort', comfortObj.NumericValue).catch(this.error);
-            await this.setCapabilityValue('measure_temperature.decreased', decreasedObj.NumericValue).catch(this.error);
-            await this.setCapabilityValue('thermostat_mode', currentModeObj.StringValue).catch(this.error);
+            // const dataArray = [];
+            // dataArray.push(outdoorTemperature, normalTemperature, comfortTemperature, decreasedTemperature, currentMode)
+
+            const output = await this.wemApi.queryApi(this.getData().id, [{ "ModuleIndex": indoorObj.ModuleIndex, "ModuleType": 2, "Parameters": [{ "ParameterID": "Normal" }] }, { "ModuleIndex": indoorObj.ModuleIndex, "ModuleType": 2, "Parameters": [{ "ParameterID": "Komfort" }] }, { "ModuleIndex": indoorObj.ModuleIndex, "ModuleType": 2, "Parameters": [{ "ParameterID": "Absenk" }] }, { "ModuleIndex": indoorObj.ModuleIndex, "ModuleType": 2, "Parameters": [{ "ParameterID": "Betriebsart" }] }]);
+            console.log(output)
+            // const [outdoorObj, normalObj, comfortObj, decreasedObj, currentModeObj] = await Promise.all([outdoorTemperature, normalTemperature, comfortTemperature, decreasedTemperature, currentMode]);
+            // const [currentModeObj, comfortObj, normalObj, decreasedObj, outdoorObj] = await Promise.all(output);
+
+            // console.log(output["comfort"])
+
+            // await this.setCapabilityValue('measure_temperature.outside', outdoorObj.NumericValue).catch(this.error);
+            await this.setCapabilityValue('measure_temperature.normal', output["normal"]).catch(this.error);
+            await this.setCapabilityValue('measure_temperature.comfort', output["comfort"]).catch(this.error);
+            await this.setCapabilityValue('measure_temperature.decreased', output["decreased"]).catch(this.error);
+            await this.setCapabilityValue('thermostat_mode', output["currentMode"]).catch(this.error);
 
             // await this.wemApi.setTemperature(this.getData().id, indoorObj.ModuleIndex, 2, "Komfort", 19.5);
 
