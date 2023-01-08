@@ -66,8 +66,12 @@ class WemApi {
     }
 
     async refreshData(bodyData) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
         const systemsUrl = `${baseUrl}/DataAccess/Refresh`;
+        console.log(cookie)
         wemHeaders["Cookie"] = cookie;
+        console.log(bodyData);
         const response = await fetch(systemsUrl, {
             method: "POST",
             headers: wemHeaders,
@@ -75,7 +79,7 @@ class WemApi {
         });
 
         const apiData = await response.json();
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        console.log(apiData);
     }
 
     async getIndoorTemperature(ID) {
@@ -121,24 +125,24 @@ class WemApi {
         }
     }
 
-    async queryApi(ID, ModuleIndex, ModuleType, ParameterID) {
+    async queryApiIndoor(ID, data) {
+        let currentMode = "";
+        let comfort = "";
+        let normal = "";
+        let decreased = "";
+
+        console.log(data);
+
         const systemsUrl = `${baseUrl}/DataAccess/Read`;
+
         let bodyData = "";
         try {
 
             bodyData = JSON.stringify({
                 "DeviceID": ID,
-                "Modules": [
-                    {
-                        "ModuleIndex": ModuleIndex,
-                        "ModuleType": ModuleType,
-                        "Parameters": [
-                            {
-                                "ParameterID": ParameterID
-                            }
-                        ]
-                    }
-                ]
+                "Modules":
+                    data
+
             });
             await this.refreshData(bodyData);
             wemHeaders["Cookie"] = cookie;
@@ -150,11 +154,72 @@ class WemApi {
             });
 
             const apiData = await response.json();
-            for (let i = 0; i < apiData["Modules"].length; i++) {
-                if (apiData["Modules"][i]["Values"][0]["NumericValue"] != null) {
-                    return apiData["Modules"][i]["Values"][0]
+
+            for (let i = 0; i < apiData["Modules"][0]["Values"].length; i++) {
+                console.log("loop");
+                if (apiData["Modules"][0]["Values"][i]["NumericValue"] != null) {
+                    if (apiData["Modules"][0]["Values"][i]["ParameterID"] == "Betriebsart") {
+                        currentMode = apiData["Modules"][0]["Values"][i]["StringValue"];
+                    }
+                    if (apiData["Modules"][0]["Values"][i]["ParameterID"] == "Komfort") {
+                        comfort = apiData["Modules"][0]["Values"][i]["NumericValue"];
+                    }
+                    if (apiData["Modules"][0]["Values"][i]["ParameterID"] == "Normal") {
+                        normal = apiData["Modules"][0]["Values"][i]["NumericValue"];
+                    }
+                    if (apiData["Modules"][0]["Values"][i]["ParameterID"] == "Absenk") {
+                        decreased = apiData["Modules"][0]["Values"][i]["NumericValue"];
+                    }
                 }
             }
+            return { currentMode, comfort, normal, decreased };
+
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+    }
+    async queryApiOutdoor(ID, data) {
+
+        let outdoor = "";
+
+        console.log(data);
+
+        const systemsUrl = `${baseUrl}/DataAccess/Read`;
+
+        let bodyData = "";
+        try {
+
+            bodyData = JSON.stringify({
+                "DeviceID": ID,
+                "Modules":
+                    data
+
+            });
+            await this.refreshData(bodyData);
+            wemHeaders["Cookie"] = cookie;
+
+            const response = await fetch(systemsUrl, {
+                method: "POST",
+                headers: wemHeaders,
+                body: bodyData
+            });
+
+            const apiData = await response.json();
+
+            for (let i = 0; i < apiData["Modules"][0]["Values"].length; i++) {
+                console.log("loop");
+                console.log(apiData["Modules"][0]["Values"][i]);
+                if (apiData["Modules"][0]["Values"][i]["NumericValue"] != null) {
+
+                    if (apiData["Modules"][0]["Values"][i]["ParameterID"] == "Außentemperatur") {
+                        outdoor = apiData["Modules"][0]["Values"][i]["NumericValue"];
+                    }
+                }
+            }
+            return { outdoor };
+
         }
         catch (e) {
             console.log(e)
