@@ -4,5 +4,11 @@
   },
   "1.0.3": {
     "en": "Adding support for writing parameters in flow cards"
+  },
+  "1.0.4": {
+    "en": "Fixing API rate limiting"
+  },
+  "1.0.5": {
+    "en": "Fixing API rate limiting"
   }
 }
