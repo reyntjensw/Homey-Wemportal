@@ -124,16 +124,12 @@ class WemApi {
             }
         }
     }
-    async generator(ModuleIndex, ModuleType, ParameterID) {
-        return { "ModuleIndex": ModuleIndex, "ModuleType": ModuleType, "Parameters": [{ "ParameterID": ParameterID }] }
-    }
-    // 
-    async queryApi(ID, data) {
+
+    async queryApiIndoor(ID, data) {
         let currentMode = "";
         let comfort = "";
         let normal = "";
         let decreased = "";
-        let outdoor = "";
 
         console.log(data);
 
@@ -174,13 +170,55 @@ class WemApi {
                     if (apiData["Modules"][0]["Values"][i]["ParameterID"] == "Absenk") {
                         decreased = apiData["Modules"][0]["Values"][i]["NumericValue"];
                     }
+                }
+            }
+            return { currentMode, comfort, normal, decreased };
+
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+    }
+    async queryApiOutdoor(ID, data) {
+
+        let outdoor = "";
+
+        console.log(data);
+
+        const systemsUrl = `${baseUrl}/DataAccess/Read`;
+
+        let bodyData = "";
+        try {
+
+            bodyData = JSON.stringify({
+                "DeviceID": ID,
+                "Modules":
+                    data
+
+            });
+            await this.refreshData(bodyData);
+            wemHeaders["Cookie"] = cookie;
+
+            const response = await fetch(systemsUrl, {
+                method: "POST",
+                headers: wemHeaders,
+                body: bodyData
+            });
+
+            const apiData = await response.json();
+
+            for (let i = 0; i < apiData["Modules"][0]["Values"].length; i++) {
+                console.log("loop");
+                console.log(apiData["Modules"][0]["Values"][i]);
+                if (apiData["Modules"][0]["Values"][i]["NumericValue"] != null) {
+
                     if (apiData["Modules"][0]["Values"][i]["ParameterID"] == "Außentemperatur") {
                         outdoor = apiData["Modules"][0]["Values"][i]["NumericValue"];
                     }
-                    // return apiData["Modules"][i]["Values"][0]
                 }
             }
-            return { currentMode, comfort, normal, decreased, outdoor };
+            return { outdoor };
 
         }
         catch (e) {
