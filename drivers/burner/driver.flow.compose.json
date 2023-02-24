@@ -45,7 +45,7 @@
                             "label": {
                                 "de": "Absenk",
                                 "en": "Away",
-                                "nl": "Afwezig"
+                                "nl": "Verlaging"
                             }
                         }
                     ]
@@ -77,7 +77,7 @@
                             "label": {
                                 "de": "Zeitprogramm 1",
                                 "en": "Schedule 1",
-                                "nl": "Tijdsprogramma 1"
+                                "nl": "Tijdprogramma 1"
                             }
                         },
                         {
@@ -85,7 +85,7 @@
                             "label": {
                                 "de": "Zeitprogramm 2",
                                 "en": "Schedule 2",
-                                "nl": "Tijdsprogramma 2"
+                                "nl": "Tijdprogramma 2"
                             }
                         },
                         {
@@ -93,7 +93,7 @@
                             "label": {
                                 "de": "Zeitprogramm 3",
                                 "en": "Schedule 3",
-                                "nl": "Tijdsprogramma 3"
+                                "nl": "Tijdprogramma 3"
                             }
                         },
                         {
@@ -125,7 +125,7 @@
                             "label": {
                                 "de": "Absenk",
                                 "en": "Away",
-                                "nl": "Afwezig"
+                                "nl": "Verlaging"
                             }
                         }
                     ]
